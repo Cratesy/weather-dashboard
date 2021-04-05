@@ -77,7 +77,7 @@ const fetchAllWeatherData = (cityName) => {
 
 // function called on load of the document
 const onLoad = () => {
-  // read from local storage amd store data in variable called citiesFromLocalStorage
+  // read from local storage and store data in variable called citiesFromLocalStorage
   // if data is present call renderCities and pass the data from local storage
   // renderCities(citiesFromLocalStorage)
   // get the last city name from citiesFromLocalStorage and store in variable called cityName

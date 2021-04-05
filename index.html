@@ -17,12 +17,13 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <script src="https://kit.fontawesome.com/7aea834b54.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <header>
-      <h1 class="p-3 mb-2 bg-secondary text-white text-center">Weather Dashboard</h1>
+      <h1 class="p-4 bg-secondary text-white text-center">Weather Dashboard</h1>
     </header> 
-     
+
     <div class="container row">
       <div class="favourites-search-container col-3">
         <div class="input-group">
@@ -37,7 +38,7 @@
             class="btn btn-outline-secondary btn-primary text-white"
             type="button"
             id="button-addon2"
-          >Search
+          ><i class="fas fa-search"></i>
           </button>
         </div>
         <ul class="list-group list-group-flush">
@@ -47,11 +48,13 @@
         </ul>
       </div>
       <div class="current-day-5-day-weather col-9">
+        <div class="current-day">
         <H2>London <span> 03/04/2021 </span><i> image</i></H2>
         <p>temperature: 86.84 &#8457</p>
         <p>Humidity: 43%</p>
         <p>wind speed: 4.7 MPH</p>
         <p>UV index: </p>
+      </div>
         <div class="5-day-card-container row">
           <h3>5-Day Forecast:</h3>
           <div class="card" style="width: 11rem;">
