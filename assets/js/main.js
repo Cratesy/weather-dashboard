@@ -1,5 +1,9 @@
 const renderCities = (citiesFromLocalStorage) => {
   // For each city construct a list item and append to the list group
+  const citySearch = forEach((city) => {
+    `<li class="list-group-item">${cityName}</li>`;
+  });
+  return citySearch;
 };
 
 const getCurrentData = (opeApiData) => {
@@ -97,6 +101,6 @@ const onClick = () => {
 
 $("#target-your-list-items").click(onClick);
 
-$("#your-form-id").submit(onSubmit);
+$("#search-city-input").submit(onSubmit);
 
 $(document).ready(onLoad);
