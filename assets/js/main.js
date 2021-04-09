@@ -40,7 +40,9 @@ const renderForecastCardComponent = (forecastData) => {
 };
 
 const fetchAllWeatherData = (cityName) => {
-  // construct URL for http://api.openweathermap.org/data/2.5/weather?q={CITY_NAME}&appid={API_KEY} and store in variable called as weatherApiUrl
+  // construct URL for http://api.openweathermap.org/data/2.5/weather?q={CITY_NAME}&appid={API_KEY} and store in variable called as weatherApiUrl]
+  const weatherApiUrl = http://api.openweathermap.org/data/2.5/weather?q=${}&appid=c314d1e4aa32644f2a62faecbf154d20;
+
   const functionForJSON = (responseObject) => {
     // unless you have some logic here do that before you return
     return responseObject.json();
@@ -49,6 +51,9 @@ const fetchAllWeatherData = (cityName) => {
     // whatever your application code is goes here
     // 1. from the dataFromServer get the lat and lon
     // 2. use lat lon to construct https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API_KEY} and store in variable called oneApiUrl
+    
+    const oneApiUrl = https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude={part}&appid=c314d1e4aa32644f2a62faecbf154d20;
+
 
     const functionForJSON = (responseObject) => {
       // unless you have some logic here do that before you return
