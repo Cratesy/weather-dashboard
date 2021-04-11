@@ -12,6 +12,7 @@ const getFromLocalStorage = () => {
   }
 };
 
+// fetchData from url
 const fetchData = async (url) => {
   try {
     const response = await fetch(url);
@@ -24,6 +25,7 @@ const fetchData = async (url) => {
   }
 };
 
+// get data by cityName
 const getDataByCityName = async (event) => {
   const target = $(event.target);
   if (target.is("li")) {
@@ -57,23 +59,22 @@ const transformForecastData = (data) => {
   };
 };
 
-// current day card
-const renderCurrentDayCard = (data) => {
-  $("#current-day").empty();
+// function called when the form is submitted
+const onSubmit = (event) => {
+  event.preventDefault();
 
-  const card = `<div class="card my-2">
-    <div class="card-body">
-      <h2>
-        ${data.cityName} (${data.date}) <img src="${data.iconURL}" />
-      </h2>
-      <div class="py-2">Temperature: ${data.temperature}&deg; C</div>
-      <div class="py-2">Humidity: ${data.humidity}%</div>
-      <div class="py-2">Wind Speed: ${data.windSpeed} MPH</div>
-      <div class="py-2">UV Index: <span class="">${data.uvi}</span></div>
-    </div>
-  </div>`;
+  const cityName = $("city-input").val();
+  const cities = getFromLocalStorage();
 
-  $("#current-day").append(card);
+  cities.push(cityName);
+
+  localStorage.setItem("cities", JSON.stringify(cities));
+
+  renderCitiesFromLocalStorage();
+
+  $("#city-input").val("");
+
+  renderAllCards(cityName);
 };
 
 // calling from apis to render card info
@@ -100,22 +101,6 @@ const renderAllCards = async (cityName) => {
   renderCurrentDayCard(currentDayData);
 };
 
-// render the 5 day forecast
-const renderForecastCard = (data) => {
-  const card = `<div class="card mh-100 bg-primary text-light rounded card-block">
-    <h5 class="card-title p-1">${data.date}</h5>
-    <img src="${data.iconURL}" />
-    <h6 class="card-subtitle mb-2 text-light p-md-2">
-      Temperature: ${data.temperature}&deg; C
-    </h6>
-    <h6 class="card-subtitle mb-2 text-light p-md-2">
-      Humidity: ${data.humidity}%
-    </h6>
-  </div>`;
-
-  $("#forecast-cards-container").append(card);
-};
-
 // cities list from local
 const renderCitiesFromLocalStorage = () => {
   $("#searched-cities").empty();
@@ -140,6 +125,41 @@ const renderCitiesFromLocalStorage = () => {
   $("#searched-cities").append(ul);
 };
 
+// current day card
+const renderCurrentDayCard = (data) => {
+  $("#current-day").empty();
+
+  const card = `<div class="card my-2">
+    <div class="card-body">
+      <h2>
+        ${data.cityName} (${data.date}) <img src="${data.iconURL}" />
+      </h2>
+      <div class="py-2">Temperature: ${data.temperature}&deg; C</div>
+      <div class="py-2">Humidity: ${data.humidity}%</div>
+      <div class="py-2">Wind Speed: ${data.windSpeed} MPH</div>
+      <div class="py-2">UV Index: <span class="">${data.uvi}</span></div>
+    </div>
+  </div>`;
+
+  $("#current-day").append(card);
+};
+
+// render the 5 day forecast
+const renderForecastCard = (data) => {
+  const card = `<div class="card mh-100 bg-primary text-light rounded card-block">
+    <h5 class="card-title p-1">${data.date}</h5>
+    <img src="${data.iconURL}" />
+    <h6 class="card-subtitle mb-2 text-light p-md-2">
+      Temperature: ${data.temperature}&deg; C
+    </h6>
+    <h6 class="card-subtitle mb-2 text-light p-md-2">
+      Humidity: ${data.humidity}%
+    </h6>
+  </div>`;
+
+  $("#forecast-cards-container").append(card);
+};
+
 // function called on load of the document
 const onLoad = () => {
   // read from local storage and store data in variable called citiesFromLocalStorage
@@ -147,24 +167,6 @@ const onLoad = () => {
   // renderCities(citiesFromLocalStorage)
   // get the last city name from citiesFromLocalStorage and store in variable called cityName
   // fetchAllWeatherData(cityName)
-};
-
-// function called when the form is submitted
-const onSubmit = (event) => {
-  event.preventDefault();
-
-  const cityName = $("city-input").val();
-  const cities = getFromLocalStorage();
-
-  cities.push(cityName);
-
-  localStorage.setItem("cities", JSON.stringify(cities));
-
-  renderCitiesFromLocalStorage();
-
-  $("#city-input").val("");
-
-  renderAllCards(cityName);
 };
 
 // render cities on ready
