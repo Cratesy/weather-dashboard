@@ -94,7 +94,10 @@ const onLoad = () => {
 };
 
 // function called when the form is submitted
-const onSubmit = () => {
+const onSubmit = (event) => {
+  event.preventDefault();
+  const cityName = $("city-input").val();
+  console.log(cityName);
   // get city name and store in variable called cityName
   // fetchAllWeatherData(cityName)
 };
@@ -106,6 +109,6 @@ const onClick = () => {
 
 $("#target-your-list-items").click(onClick);
 
-$("#search-city-input").submit(onSubmit);
+$("#search-city-input").on("submit", onSubmit);
 
 $(document).ready(onLoad);
