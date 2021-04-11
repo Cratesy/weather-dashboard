@@ -1,6 +1,7 @@
+// my personal api key
 const API_KEY = "c314d1e4aa32644f2a62faecbf154d20";
 
-
+// getting city data from local storage
 const getFromLocalStorage = () => {
   const localStorageData = JSON.parse(localStorage.getItem("cities"));
 
@@ -36,57 +37,47 @@ const getForecastData = (opeApiData) => {
   ];
 };
 
-const renderCurrentCardComponent = (currentData) => {
-  // from current data build the current card component
+// current day card
+const renderCurrentDayCard = (data) => {
+  $("#current-day").empty();
+
+  const card = `<div class="card my-2">
+    <div class="card-body">
+      <h2>
+        ${data.cityName} (${data.date}) <img src="${data.iconURL}" />
+      </h2>
+      <div class="py-2">Temperature: ${data.temperature}&deg; C</div>
+      <div class="py-2">Humidity: ${data.humidity}%</div>
+      <div class="py-2">Wind Speed: ${data.windSpeed} MPH</div>
+      <div class="py-2">UV Index: <span class="">${data.uvi}</span></div>
+    </div>
+  </div>`;
+
+  $("#current-day").append(card);
 };
 
-const renderForecastCardComponent = (forecastData) => {
-  // from current data build the current card component
-};
+// calling from apis to render card info
+const renderAllCards = async (cityName) => {
+  const currentDayUrl = `http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`;
 
-const fetchAllWeatherData = (cityName) => {
-  // construct URL for http://api.openweathermap.org/data/2.5/weather?q={CITY_NAME}&appid={API_KEY} and store in variable called as weatherApiUrl]
-  const weatherApiUrl = http://api.openweathermap.org/data/2.5/weather?q=${}&appid=c314d1e4aa32644f2a62faecbf154d20;
+  const currentDayResponse = await fetchData(currentDayUrl);
 
-  const functionForJSON = (responseObject) => {
-    // unless you have some logic here do that before you return
-    return responseObject.json();
-  };
-  const functionForApplication = (dataFromServer) => {
-    // whatever your application code is goes here
-    // 1. from the dataFromServer get the lat and lon
-    // 2. use lat lon to construct https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={API_KEY} and store in variable called oneApiUrl
-    
-    const oneApiUrl = https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude={part}&appid=c314d1e4aa32644f2a62faecbf154d20;
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${currentDayResponse.coord.lat}&lon=${currentDayResponse.coord.lon}&exclude=minutely,hourly&units=metric&appid=${API_KEY}`;
 
+  const forecastResponse = await fetchData(forecastUrl);
 
-    const functionForJSON = (responseObject) => {
-      // unless you have some logic here do that before you return
-      return responseObject.json();
-    };
-    const functionForApplication = (dataFromServer) => {
-      // whatever your application code is goes here
-      // call a function getCurrentData() to get the current data from dataFromServer
-      // getCurrentData()  and store in currentData
-      // getForecastData() and store in forecastData
-      // renderCurrentCardComponent(currentData);
-      // renderForecastCardComponent(forecastData);
-    };
-    const functionToHandleError = (errorObject) => {
-      // handle your error here according to your application
-    };
-    fetch(oneApiUrl)
-      .then(functionForJSON)
-      .then(functionForApplication)
-      .catch(functionToHandleError);
-  };
-  const functionToHandleError = (errorObject) => {
-    // handle your error here according to your application
-  };
-  fetch(weatherApiUrl)
-    .then(functionForJSON)
-    .then(functionForApplication)
-    .catch(functionToHandleError);
+  const cardsData = forecastResponse.daily.map(transformForecastData);
+
+  $("#forecast-cards-container").empty();
+
+  cardsData.slice(1, 6).forEach(renderForecastCard);
+
+  const currentDayData = transformCurrentDayData(
+    forecastResponse,
+    currentDayResponse.name
+  );
+
+  renderCurrentDayCard(currentDayData);
 };
 
 const renderCitiesFromLocalStorage = () => {
