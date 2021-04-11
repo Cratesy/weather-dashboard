@@ -12,29 +12,28 @@ const getFromLocalStorage = () => {
   }
 };
 
-const getCurrentData = (opeApiData) => {
-  // from object extract the data points you need for the return data
+// current day data
+const transformCurrentDayData = (data, name) => {
+  const current = data.current;
   return {
-    name: "",
-    date: "",
-    iconURL: "",
-    temperature: "",
-    humidity: "",
-    windSpeed: "",
-    uvIndex: 0,
+    cityName: name,
+    temperature: current.temp,
+    humidity: current.humidity,
+    windSpeed: current.wind_speed,
+    date: moment.unix(current.dt).format("MM/DD/YYYY"),
+    iconURL: `http://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`,
+    uvi: current.uvi,
   };
 };
 
-const getForecastData = (opeApiData) => {
-  // iterate and construct the return data array
-  return [
-    {
-      date: "",
-      iconURL: "",
-      temperature: "",
-      humidity: "",
-    },
-  ];
+// 5 day forecast data
+const transformForecastData = (data) => {
+  return {
+    date: moment.unix(data.dt).format("MM/DD/YYYY"),
+    iconURL: `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+    temperature: data.temp.day,
+    humidity: data.humidity,
+  };
 };
 
 // current day card
@@ -80,6 +79,23 @@ const renderAllCards = async (cityName) => {
   renderCurrentDayCard(currentDayData);
 };
 
+// render the 5 day forecast
+const renderForecastCard = (data) => {
+  const card = `<div class="card mh-100 bg-primary text-light rounded card-block">
+    <h5 class="card-title p-1">${data.date}</h5>
+    <img src="${data.iconURL}" />
+    <h6 class="card-subtitle mb-2 text-light p-md-2">
+      Temperature: ${data.temperature}&deg; C
+    </h6>
+    <h6 class="card-subtitle mb-2 text-light p-md-2">
+      Humidity: ${data.humidity}%
+    </h6>
+  </div>`;
+
+  $("#forecast-cards-container").append(card);
+};
+
+// cities list from local
 const renderCitiesFromLocalStorage = () => {
   $("#searched-cities").empty();
 
@@ -130,6 +146,7 @@ const onSubmit = (event) => {
   renderAllCards(cityName);
 };
 
+// render cities on ready
 const onReady = () => {
   renderCitiesFromLocalStorage();
 };
