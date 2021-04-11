@@ -1,3 +1,6 @@
+const API_KEY = "c314d1e4aa32644f2a62faecbf154d20";
+
+
 const getFromLocalStorage = () => {
   const localStorageData = JSON.parse(localStorage.getItem("cities"));
 
