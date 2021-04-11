@@ -12,6 +12,27 @@ const getFromLocalStorage = () => {
   }
 };
 
+const fetchData = async (url) => {
+  try {
+    const response = await fetch(url);
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getDataByCityName = async (event) => {
+  const target = $(event.target);
+  if (target.is("li")) {
+    const cityName = target.data("city");
+
+    renderAllCards(cityName);
+  }
+};
+
 // current day data
 const transformCurrentDayData = (data, name) => {
   const current = data.current;
