@@ -1,9 +1,11 @@
-const renderCities = (citiesFromLocalStorage) => {
-  // For each city construct a list item and append to the list group
-  const citySearch = forEach((city) => {
-    `<li class="list-group-item">${cityName}</li>`;
-  });
-  return citySearch;
+const getFromLocalStorage = () => {
+  const localStorageData = JSON.parse(localStorage.getItem("cities"));
+
+  if (localStorageData === null) {
+    return [];
+  } else {
+    return localStorageData;
+  }
 };
 
 const getCurrentData = (opeApiData) => {
@@ -84,6 +86,29 @@ const fetchAllWeatherData = (cityName) => {
     .catch(functionToHandleError);
 };
 
+const renderCitiesFromLocalStorage = () => {
+  $("#searched-cities").empty();
+
+  const cities = getFromLocalStorage();
+
+  const ul = $("<ul>").addClass("list-group");
+
+  const appendListItemToUl = (city) => {
+    const li = $("<li>")
+      .addClass("list-group-item")
+      .attr("data-city", city)
+      .text(city);
+
+    ul.append(li);
+  };
+
+  cities.forEach(appendListItemToUl);
+
+  ul.on("click", getDataByCityName);
+
+  $("#searched-cities").append(ul);
+};
+
 // function called on load of the document
 const onLoad = () => {
   // read from local storage and store data in variable called citiesFromLocalStorage
@@ -96,19 +121,25 @@ const onLoad = () => {
 // function called when the form is submitted
 const onSubmit = (event) => {
   event.preventDefault();
+
   const cityName = $("city-input").val();
-  console.log(cityName);
-  // get city name and store in variable called cityName
-  // fetchAllWeatherData(cityName)
+  const cities = getFromLocalStorage();
+
+  cities.push(cityName);
+
+  localStorage.setItem("cities", JSON.stringify(cities));
+
+  renderCitiesFromLocalStorage();
+
+  $("#city-input").val("");
+
+  renderAllCards(cityName);
 };
 
-const onClick = () => {
-  // get city name from the list item that was clicked and store in variable called cityName
-  // fetchAllWeatherData(cityName)
+const onReady = () => {
+  renderCitiesFromLocalStorage();
 };
 
-$("#target-your-list-items").click(onClick);
+$("#search-by-city-form").on("submit", onSubmit);
 
-$("#search-city-input").on("submit", onSubmit);
-
-$(document).ready(onLoad);
+$(document).ready(onReady);
