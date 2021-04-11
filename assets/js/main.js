@@ -171,15 +171,6 @@ const renderForecastCard = (data) => {
   $("#forecast-cards-container").append(card);
 };
 
-// function called on load of the document
-const onLoad = () => {
-  // read from local storage and store data in variable called citiesFromLocalStorage
-  // if data is present call renderCities and pass the data from local storage
-  // renderCities(citiesFromLocalStorage)
-  // get the last city name from citiesFromLocalStorage and store in variable called cityName
-  // fetchAllWeatherData(cityName)
-};
-
 // render cities on ready
 const onReady = () => {
   renderCitiesFromLocalStorage();
