@@ -125,6 +125,17 @@ const renderCitiesFromLocalStorage = () => {
   $("#searched-cities").append(ul);
 };
 
+// uvi parameters
+const getUvIndexClass = (uvIndex) => {
+  if (uvIndex > 3) {
+    return "p-2 bg-danger text-white";
+  } else if (uvIndex < 2) {
+    return "p-2 bg-primary text-white";
+  } else {
+    return "";
+  }
+};
+
 // current day card
 const renderCurrentDayCard = (data) => {
   $("#current-day").empty();
