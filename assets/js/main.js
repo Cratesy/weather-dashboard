@@ -60,10 +60,10 @@ const transformForecastData = (data) => {
 };
 
 // function called when the form is submitted
-const onSubmit = (event) => {
+const onSubmit = async (event) => {
   event.preventDefault();
 
-  const cityName = $("city-input").val();
+  const cityName = $("#city-input").val();
   const cities = getFromLocalStorage();
 
   cities.push(cityName);
